@@ -1,0 +1,9 @@
+{% if activities_list %}
+<ul>
+    {% for activity in activities_list %}
+    <li><a href="{% url 'activities:detail' activity.id%}">{{activity.activity_name}}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No activites available</p>
+{% endif %}
