@@ -1,0 +1,12 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'workouts/style.css' %}">
+
+{% if workouts_list %}
+<ul>
+    {% for workout in workouts_list %}
+    <li><a href="{% url 'workouts:detail' workout.id%}">{{workout.workout_name}}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No workouts available</p>
+{% endif %}
