@@ -1,3 +1,6 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'activities/style.css' %}">
+
 {% if activities_list %}
 <ul>
     {% for activity in activities_list %}
