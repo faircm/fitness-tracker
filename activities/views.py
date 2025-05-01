@@ -1,28 +1,28 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from django.template import loader
+from django.views import generic
 from .models import Activity
 
 
-def index(request):
-    activities_list = Activity.objects.order_by("activity_name")[:10]
-    context = {"activities_list": activities_list}
-    return render(request, "activities/index.html", context)
+class IndexView(generic.ListView):
+    template_name = "activities/index.html"
+    context_object_name = "activities_list"
+
+    def get_queryset(self):
+        return Activity.objects.order_by("-is_cardio", "activity_name")
 
 
-def detail(request, activity_id):
-    activity = get_object_or_404(Activity, pk=activity_id)
-    return render(request, "activities/detail.html", {"activity": activity})
-    # try:
-    #     activity = Activity.objects.get(pk=activity_id)
-    # except Activity.DoesNotExist:
-    #     raise Http404("Activity not found")
-    # return render(request, "polls/detail.html", {"activity": activity})
+class DetailView(generic.DetailView):
+    model = Activity
+    template_name = "activities/detail.html"
 
 
-def usage(request, activity_id):
-    return HttpResponse(f"Listing details for activity {activity_id}")
+class UsageView(generic.DetailView):
+    model = Activity
+    template_name = "activities/detail.html"
 
 
 def record(request, activity_id):
+    activity = get_object_or_404(Activity, pk=activity_id)
+
     return HttpResponse(f"Recording entry with activity type {activity_id}")
